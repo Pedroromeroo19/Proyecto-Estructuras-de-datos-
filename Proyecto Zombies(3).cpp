@@ -932,6 +932,8 @@ int main(){
                     int estaciones_cantidad_zombie;
                     int health;
                     int damage;
+                    int type;
+                    int value;
                     cout<< RED << "Bienvenido a RUNNING DEAD [Demo] " << RESET << endl;
                         cout<< BG_LGREEN << "======== ¿Que deseas crear? =========" << RESET << endl;
                         cout << "1. Soldado " <<endl;
@@ -967,6 +969,34 @@ int main(){
                             //nota falta conexion cantidad por estacion y crear tropa
                             break;
                         case 3:
+                            cout << "Indique el nombre del accesorio a utilizar:" << endl;
+                            cin >> name;
+                            fflush(stdin);
+                            cout << "Identifique que tipo de accesorio es:" << endl;
+                            cout << "1. Defensa" << endl;
+                            cout << "2. Ataque" << endl;
+                            cout << "3. Supervivencia" << endl;
+                            cin >> type;
+                            fflush(stdin);
+                            while(type<1 || type>3){
+                                cout << RED << "ERROR. El valor esta fuera del rango establecido" << RESET << endl;
+                                cout << "Identifique que tipo de accesorio es:" << endl;
+                                cout << "1. Defensa" << endl;
+                                cout << "2. Ataque" << endl;
+                                cout << "3. Supervivencia" << endl;
+                                cin >> value;
+                                fflush(stdin);                                
+                            }
+                            fflush(stdin);
+                            cout << "Indique el valor de ayuda del accesorio en una escala del 1 al 10:" << endl;
+                            cin >> value;
+                            fflush(stdin);
+                            while(value<1 || value >10){
+                                cout << RED << "ERROR. El valor esta fuera del rango establecido" << RESET << endl;
+                                cout << "Indique el valor de ayuda del accesorio en una escala del 1 al 10:" << endl;
+                                cin >> value;
+                                fflush(stdin);
+                            }                       
                             break;
                         case 4:
                             cout << "Indique como se llama la estacion sin espacio:" << endl;

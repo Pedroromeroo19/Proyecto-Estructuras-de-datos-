@@ -1,4 +1,6 @@
 #include <iostream>
+#include <fstream>
+#include <sstream>
 using namespace std;
 
 
@@ -10,7 +12,8 @@ using namespace std;
         accesorios *next;
     };
 
-    accesorios* cabeza = NULL;
+    accesorios* cabeza_acc = NULL;
+
     //___________________________________________funcion para saber si esta vacia______________________________________________
     bool estavacia_acc(accesorios *& p){
         return p == nullptr;
@@ -154,7 +157,7 @@ using namespace std;
         aux1->valor = valor;
     }
     
-    void agregarespec(int posicion, string  nombre, string tipo_acc, int valor, int usos ){
+    void agregar_espec_acc(int posicion, string  nombre, string tipo_acc, int valor, int usos ){
         int size = 0;
 
         if (posicion>size){
@@ -162,15 +165,15 @@ using namespace std;
             return;
         }
         if ((posicion == -1)or(posicion==size)){ //caso agregar ultimo
-            Agregar_Ultimo_especifico_acc(nombre,tipo_acc, valor, usos, cabeza);
+            Agregar_Ultimo_especifico_acc(nombre,tipo_acc, valor, usos, cabeza_acc);
             size = size + 1 ;
         }
         if (posicion == 0){ //caso agregar primero
-            Agregar_Al_final_especifico_acc(nombre, tipo_acc, valor, usos, cabeza);
+            Agregar_Al_final_especifico_acc(nombre, tipo_acc, valor, usos, cabeza_acc);
             size = size + 1 ;
         }
         if (posicion>0 && posicion<size){ //caso agregar en el medio
-            Agregar_Medio_especifico_acc(nombre,usos, tipo_acc,valor, posicion , cabeza, size);
+            Agregar_Medio_especifico_acc(nombre,usos, tipo_acc,valor, posicion , cabeza_acc, size);
             size = size + 1 ;
         }
     }
@@ -178,7 +181,7 @@ using namespace std;
     void leerlistacc(){
         int size = 0;
 
-        accesorios* aux1 = cabeza;
+        accesorios* aux1 = cabeza_acc;
         int valor_pos = size;
         while (aux1 != NULL){
             cout << "Posicion: "<< valor_pos << endl;
@@ -201,16 +204,16 @@ using namespace std;
             return;
         }
         if (nombre != ""){
-            modificar_nombre_acc(nombre,posicion,cabeza, size);
+            modificar_nombre_acc(nombre,posicion,cabeza_acc, size);
         }
         if (tipo_acc != ""){
-            modificar_tipo_de_acc(tipo_acc,posicion,cabeza, size);
+            modificar_tipo_de_acc(tipo_acc,posicion,cabeza_acc, size);
         }
         if (valor != 0){
-            modificar_valor(valor,posicion,cabeza, size);
+            modificar_valor(valor,posicion,cabeza_acc, size);
         }
         if (usos != 0){
-            modificar_usos(usos, posicion, cabeza, size);
+            modificar_usos(usos, posicion, cabeza_acc, size);
         }
 
     }
@@ -223,15 +226,15 @@ using namespace std;
             return;
         }
         if ((position == -1)or(position==size)){ //caso eliminar ultimo
-            Eliminar_Ultimo_acc(cabeza);
+            Eliminar_Ultimo_acc(cabeza_acc);
             size = size - 1 ;
         }
         if (position == 0){ //caso eliminar primero
-            eliminar_al_final_acc(cabeza);
+            eliminar_al_final_acc(cabeza_acc);
             size = size - 1 ;
         }
         if (position>0 && position<size){ //caso agregar en el medio
-            eliminar_medio_acc(position, cabeza, size);
+            eliminar_medio_acc(position, cabeza_acc, size);
             size = size - 1 ;
         }
     }
@@ -252,4 +255,40 @@ using namespace std;
         }
     }
 
+// __________________________________________________Lectura de archivos __________________________________________________// 
+    bool lecturaAcc(accesorios **accesorios){ 
+        ifstream archivo("Accesorio.zmb", ios::in);
+        if (!archivo) {
+            cout << "Error al abrir el archivo." << endl;
+            system("pause");
+            cout << endl;  
+            return false;
+        }else{
+            string nombre, tipo,  aux; 
+            int valor, usos, pos; 
+            int cantidad_acc; 
+            archivo >> cantidad_acc; 
+            archivo.ignore();
+            int cont = 0;
+            while(cont<cantidad_acc){
+                getline(archivo, aux);
+                if(aux == "---"){
+                    archivo >> pos; 
+                    getline(archivo, nombre); 
+                    getline(archivo,tipo );  
+                    archivo >> valor; 
+                    archivo >> usos; 
+                    cont++;
+                    agregar_espec_acc(pos, nombre, tipo,valor, usos );
+                }
+            // convierte variables que son strings en numeros
+            //int num_vida = stoi(vida); 
+            }
+
+        archivo.close(); // Cerramos archivo 
+        cout << "Los jugadores se han cargado con exito !!" << endl; 
+        leerlistacc(); 
+        return true; 
+        }
+    }
 

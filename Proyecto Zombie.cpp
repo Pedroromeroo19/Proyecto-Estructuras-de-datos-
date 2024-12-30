@@ -20,125 +20,9 @@ using namespace std;
 //                                       ESTRUCTURAS DE LOS DATOS                                                   // 
 
 
-//_______________________________________ Mapa _________________________________________________________________//
-struct mapa{
-    string Nombre;
-
-};
-
-//_____________________________________________ Mochila _____________________________________________________// 
-struct Mochila{
-    string Nombre_del_soldado;
-    int Capacidad;
-    accesorios *accesorios; 
-    Mochila *proxMochila; 
-
-};
-
-//                                           FUNCIONES PRINCIPALES                                              //
-
-
-
-//___________________________________________ Funciones de Accesorios __________________________________________//
-
-int generar_Accesorio_Aleatorio(int min, int max){
-  static default_random_engine generador(time(nullptr));
-  uniform_int_distribution<int> distribucion(min, max);
-  return distribucion(generador);
-}
-
-
-//__________________________________________ Funciones de Mochilas _____________________________________________//
-Mochila *CrearMochila(string nombre, int capacidad){
-    Mochila *nueva_mochila = new Mochila; 
-    nueva_mochila->Nombre_del_soldado = nombre; 
-    nueva_mochila->Capacidad = capacidad; 
-    nueva_mochila->accesorios = nullptr;
-    nueva_mochila->proxMochila = nullptr;  
-    return nueva_mochila;
-}
-
-bool listaVaciaMochila(Mochila *listaDeMochilas){
-    return listaDeMochilas == nullptr;
-}
-
-void insertarUltimaMochila(Mochila **mochila, string nombre, int capacidad){
-    Mochila *nuevaMochila = CrearMochila(nombre, capacidad);
-											 
-   if (listaVaciaMochila(*mochila)) {
-       *mochila = nuevaMochila;
-    } 
-    else {
-       Mochila *auxiliar = *mochila;
-       while (auxiliar->proxMochila!= NULL) {
-           auxiliar = auxiliar->proxMochila;
-       }
-        auxiliar->proxMochila= nuevaMochila;
-   }
-
-}
-
-Mochila *buscarMochilaPorNombre(Mochila *mochila, string nombreDelSoldado){ 
-    Mochila *temp= mochila; 
-    while(temp!=nullptr){
-        if(temp->Nombre_del_soldado != nombreDelSoldado){
-            temp = temp->proxMochila;
-        }else{
-            return temp; 
-            cout << "Jugador encontrado"<< endl; 
-        }
-    } 
-    return temp ; 
-}
-
-void eliminarMochilaPorNombreDelSoldado(Mochila *cabeza, string nombre){
-    Mochila *actual = cabeza;
-    Mochila *anterior = nullptr;
-    while (actual->proxMochila != NULL){
-        anterior = actual;
-        if(nombre == (actual->proxMochila)->Nombre_del_soldado){
-            anterior = anterior->proxMochila;
-            actual->proxMochila= anterior->proxMochila;
-            delete anterior;
-        }
-        actual= actual->proxMochila;
-    }
-}
-
-// void mostrarUnaMochila(Mochila *lista, string nombre){
-//     Mochila *mover = nullptr;     
-//      if (!listaVaciaMochila(lista)){
-//         Mochila *mochila = buscarMochilaPorNombre(lista, nombre);
-//         mover = mochila;
-        
-//         cout <<"Mochila: "<<endl;
-//  	    cout <<" Nombre del Soldado: "<<mover->Nombre_del_soldado <<endl;
-//  	    cout <<" Capacidad: "<<mover->Capacidad<<endl;
-//         if(mover->accesorios != nullptr){    
-//             while(mover->accesorios != nullptr){ 
-//                 cout << "Acesorios que lleva: " << endl; 
-//                 cout <<" nombre : "<<mover->accesorios->Nombre_del_accesorio <<endl;
-//                 cout <<" Tipo : "<<mover->accesorios->Tipo <<endl;
-//                 cout <<" Uso o municion: " << mover->accesorios->Usos_Municion <<endl;
-//                 cout << "Valor: " << mover->accesorios->valor << endl;
-//  	            mover->accesorios = mover->accesorios->siguiente;
-//             }
-//         }
-//         else{
-//             cout << RED << "Tu mochila esta vacia, busca objetos para meterlos a tu mochila!" << endl; 
-//         }
-//     }  
-//     else
-//       cout <<" ";
-//  }
-
-
-//_________________________________________Lectura de archivos_______________________________________//
-
-
 //____________________________________________ MENU _______________________________________//
 void mostrarMenu(){
-    cout<< RED << "Bienvenido a RUNNING DEAD [Demo] " << RESET << endl;
+    cout<< RED << "Bienvenido a RUNNING DEAD " << RESET << endl;
     cout<< BG_LGREEN << "======== MENU =========" << RESET << endl;
     cout << "1. Iniciar partida" <<endl;
     cout << "2. Crear datos "<< endl; 
@@ -151,8 +35,8 @@ void mostrarMenu(){
 
 // ---------------------------------------------- MAIN ------------------------------------ //
 int main(){
-    soldado **primerSoldado = nullptr; 
-    lecturasoldados(&*primerSoldado);
+    soldado *primerSoldado = nullptr; 
+    lecturasoldados(&primerSoldado);
     string equipo1; 
     string equipo2; 
     
@@ -177,8 +61,8 @@ int main(){
                         cout<<"Era Londres del 2024..."<<endl;
                         cout<<"Lo que comenzo como una serie de extranios sintomas en pequenias comunidades"<<endl;
                         cout<<"a lo largo y ancho del pais. "<<endl;
-                        cout<<"Pronto se revelo como una pesadilla global, gracias a patogenos modificados a "<<endl;
-                        cout<<"partir del covid-19 se habria dispersado en la atmosfera"<<endl;
+                        cout<<"Pronto se revelo como una pesadilla global, gracias a que patogenos modificados a "<<endl;
+                        cout<<"partir del covid-19 se habrian dispersado en la atmosfera"<<endl;
                         cout<<""<<endl;
 
                         //system("pause");
@@ -202,7 +86,7 @@ int main(){
                         //system("pause");
 
                         cout<<""<<endl;
-                        cout<< equipo1 <<" confiamos en usted para llevar la cura hasta su lugar de destino. Buena suerte!!"<<endl;
+                        cout<< equipo1 << "y" << equipo2 <<" confiamos en usted para llevar la cura hasta su lugar de destino. Buena suerte!!"<<endl;
                         cout<<"Debe seleccionar con cuidado que soldados llevara a la disputa"<<endl;
                         // colocar opcion de elegir soldados en la batalla
                        
@@ -213,10 +97,6 @@ int main(){
                     {int opc3;
                     string name;
                     string weapon;
-                    int type;
-                    int health;
-                    int damage;
-                    int value;
                     cout<< RED << "Bienvenido a RUNNING DEAD [Demo] " << RESET << endl;
                         cout<< BG_LGREEN << "======== ¿Que deseas crear? =========" << RESET << endl;
                         cout << "1. Soldado " <<endl;
@@ -361,6 +241,12 @@ int main(){
                     break;
             }
     }while (opcion != 5);   
+
+    // liberar memoria 
+    delete primerSoldado; 
+    // delete; 
+    // delete; 
+    // delete; 
     
     return 0;
 }

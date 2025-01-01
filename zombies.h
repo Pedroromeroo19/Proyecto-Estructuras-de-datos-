@@ -5,52 +5,57 @@ using namespace std;
 
 struct zombies
 {   
-
+    //Nodo con datos de zombie
     struct Zombie{
         string Nombre_del_zombie; 
-        string nombre_de_ataque;
         int fortaleza;
         int Danno; 
         Zombie *next;
     };
 
+    //Lista interna dentro de el struct zombie que esta hecho de nodos de zombie
     Zombie* cabeza = NULL;
+
+    //Manejo del tamaño de la lista
     int size = 0;
 
+    // Completando el crud se presentan las siguientes funciones
+
+    //___________________________________________________Funcion agregar (Create)_________________________________________________
     void Agregar_Random(int posicion){
         if (posicion>size){
             cout << "Error : Se puso una posicion mayor al tamaño de la lista" << endl;
             return;
         }
         if ((posicion == -1)or(posicion==size)){ //caso agregar ultimo
-            Agregar_Ultimo(cabeza);
-            size = size + 1 ;
+            Agregar_Ultimo(cabeza); // Parametro puntero cabeza de lista interna
+            size = size + 1 ; // Al agregar nodo incrementa el tamaño de lista
         }
         if (posicion == 0){ //caso agregar primero
-            Agregar_Al_final(cabeza);
+            Agregar_Al_final(cabeza); // Parametro puntero cabeza de lista interna
             size = size + 1 ;
         }
         if (posicion>0 && posicion<size){ //caso agregar en el medio
-            Agregar_Medio(posicion , cabeza, size);
+            Agregar_Medio(posicion , cabeza, size); // Parametro puntero cabeza de lista interna, posicion especifica y tamaño de lista
             size = size + 1 ;
         }
     }
     
-    void agregarespec(int posicion, string  nombre, string nombre_ataque, int fortaleza, int danio ){
+    void agregar_espec_zombies(int posicion, string  nombre, int fortaleza, int danio ){
         if (posicion>size){
             cout << "Error : Se puso una posicion mayor al tamaño de la lista" << endl;
             return;
         }
         if ((posicion == -1)or(posicion==size)){ //caso agregar ultimo
-            Agregar_Ultimo_especifico(nombre,fortaleza, nombre_ataque, danio, cabeza);
+            Agregar_Ultimo_especifico(nombre,fortaleza, danio, cabeza);
             size = size + 1 ;
         }
         if (posicion == 0){ //caso agregar primero
-            Agregar_Al_final_especifico(nombre,fortaleza, nombre_ataque, danio, cabeza);
+            Agregar_Al_final_especifico(nombre,fortaleza, danio, cabeza);
             size = size + 1 ;
         }
         if (posicion>0 && posicion<size){ //caso agregar en el medio
-            Agregar_Medio_especifico(nombre,fortaleza, nombre_ataque, danio, posicion , cabeza, size);
+            Agregar_Medio_especifico(nombre,fortaleza, danio, posicion , cabeza, size);
             size = size + 1 ;
         }
     }
@@ -60,7 +65,8 @@ struct zombies
 
     }
 
-    void leerlist(){
+    //_________________________________________________________Funcion lear (read)________________________________________________
+    void leer_lista_zombies(){
         Zombie* aux1 = cabeza;
         int valor_pos = size;
         while (aux1 != NULL){
@@ -68,7 +74,6 @@ struct zombies
             valor_pos=valor_pos-1;
             cout << "Caracteristicas de los Zombies:"<< endl;
             cout << "Nombre del zombie: "<< aux1->Nombre_del_zombie << endl;
-            cout << "Nombre del ataque: " << aux1->nombre_de_ataque << endl;
             cout << "Numero de daño: "<< aux1->Danno << endl;
             cout << "fortaleza: " << aux1->fortaleza << endl;
             cout << endl;
@@ -76,16 +81,14 @@ struct zombies
         }
     }
 
-    void modificarlist(int posicion, string  nombre, string nombre_ataque, int fortaleza, int danio){        
+    //_____________________________________________________Funcion modificar (Update)___________________________________________________
+    void modificar_list_zombie(int posicion, string  nombre, int fortaleza, int danio){        
         if (posicion>size){
             cout << "Error : Se puso una posicion mayor al tamaño de la lista" << endl;
             return;
         }
         if (nombre != ""){
             modificar_nombre(nombre,posicion,cabeza, size);
-        }
-        if (nombre_ataque != ""){
-            modificar_nombre_ataque(nombre_ataque,posicion,cabeza, size);
         }
         if (fortaleza != 0){
             modificar_fortaleza(fortaleza,posicion,cabeza, size);
@@ -96,6 +99,7 @@ struct zombies
 
     }
 
+    //_____________________________________________________Funcion eliminar (Delete)_____________________________________________
     void eliminarlistpos(int position){
         if (position>size){
             cout << "Error : Se puso una posicion mayor al tamaño de la lista" << endl;
@@ -114,6 +118,8 @@ struct zombies
             size = size - 1 ;
         }
     }
+
+
     //Por hacer
     void eliminarlistref(){
 
@@ -159,6 +165,7 @@ struct zombies
     }*/
 }
 
+    // Se Usa el private para las subfunciones en cada caso y para crear una capa de abstraccion entre las funciones principales y las subfunciones para casos especificos 
     private:
 
     enum zombiestipo {zombierapidotipo = 0, zombietanquetipo = 1, zombieinteligentetipo = 2, zombiesconhongostipo = 3, zombieluminiscentetipo = 4};
@@ -189,7 +196,6 @@ struct zombies
         case  zombierapidotipo:
             nodo->Nombre_del_zombie = "zombie rapido";
             nodo->Danno = zombierapidodano[randomnum];
-            nodo->nombre_de_ataque = zombierapidonombre[randomnum];
             nodo->fortaleza=110;
             return nodo;
         break;
@@ -197,7 +203,6 @@ struct zombies
         case zombietanquetipo:
             nodo->Nombre_del_zombie="zombie tanque";
             nodo->Danno = zombietanquedano[randomnum];
-            nodo->nombre_de_ataque = zombietanquenombre[randomnum];
             nodo->fortaleza=150;
             return nodo;
         break;
@@ -205,7 +210,6 @@ struct zombies
         case zombieinteligentetipo:
             nodo->Nombre_del_zombie="zombie inteligente";
             nodo->Danno = zombieinteligentedano[randomnum];
-            nodo->nombre_de_ataque = zombieinteligentenombre[randomnum];
             nodo->fortaleza=80;
             return nodo;
         break;
@@ -213,7 +217,6 @@ struct zombies
         case zombiesconhongostipo:
             nodo->Nombre_del_zombie="zombies con hongos";
             nodo->Danno = zombieconhongosdano[randomnum];
-            nodo->nombre_de_ataque = zombieconhongosnombre[randomnum];
             nodo->fortaleza=90;
             return nodo;
         break;
@@ -221,7 +224,6 @@ struct zombies
         case zombieluminiscentetipo:
             nodo->Nombre_del_zombie="zombie luminiscente";
             nodo->Danno = nombresFarmaciasdano[randomnum];
-            nodo->nombre_de_ataque = nombresFarmaciasnombre[randomnum];
             nodo->fortaleza=120;
             return nodo;
         break;
@@ -333,13 +335,12 @@ struct zombies
 
 //_______________________________________________________Agregar Especifico_______________________________________________________
 
-    void Agregar_Ultimo_especifico(string  nombre, int fortaleza, string nombre_ataque, int danio,Zombie *& cabeza){
+    void Agregar_Ultimo_especifico(string  nombre, int fortaleza, int danio,Zombie *& cabeza){
         Zombie* nuevoZombie = new Zombie();
 
         //Declaracion de datos
         nuevoZombie->Nombre_del_zombie = nombre;
         nuevoZombie->Danno = danio;
-        nuevoZombie->nombre_de_ataque = nombre_ataque;
         nuevoZombie->fortaleza = fortaleza;
 
         if (estavacia(cabeza)){
@@ -353,13 +354,12 @@ struct zombies
         cabeza = nuevoZombie;
     }
 
-    void Agregar_Al_final_especifico(string  nombre, int fortaleza, string nombre_ataque, int danio,Zombie *& cabeza){
+    void Agregar_Al_final_especifico(string  nombre, int fortaleza, int danio,Zombie *& cabeza){
         Zombie* nuevoZombie = new Zombie();
 
         //Declaracion de datos
         nuevoZombie->Nombre_del_zombie = nombre;
         nuevoZombie->Danno = danio;
-        nuevoZombie->nombre_de_ataque = nombre_ataque;
         nuevoZombie->fortaleza = fortaleza;
 
         Zombie *aux1= cabeza->next;
@@ -374,13 +374,12 @@ struct zombies
         }
     }
 
-    void Agregar_Medio_especifico(string  nombre, int fortaleza, string nombre_ataque, int danio,int posicion,Zombie *& cabeza,int tamano){
+    void Agregar_Medio_especifico(string  nombre, int fortaleza, int danio,int posicion,Zombie *& cabeza,int tamano){
         Zombie* nuevoZombie = new Zombie();
 
         //Declaracion de datos
         nuevoZombie->Nombre_del_zombie = nombre;
         nuevoZombie->Danno = danio;
-        nuevoZombie->nombre_de_ataque = nombre_ataque;
         nuevoZombie->fortaleza = fortaleza;
 
         Zombie *aux1= cabeza->next;
@@ -442,15 +441,6 @@ struct zombies
         aux1->Nombre_del_zombie = nombre;
     }
 
-    void modificar_nombre_ataque(string  nombre_ataque,int posicion, Zombie *& cabeza, int tamano){
-        Zombie *aux1 = cabeza;
-        int avanze= tamano - posicion;
-        for (int i=0;i<avanze;i++){
-            aux1= aux1->next;
-        }
-        aux1->nombre_de_ataque = nombre_ataque;
-    }
-
     void modificar_fortaleza(int  fortaleza,int posicion, Zombie *& cabeza, int tamano){
         Zombie *aux1 = cabeza;
         int avanze= tamano - posicion;
@@ -473,43 +463,4 @@ struct zombies
     bool estavacia(Zombie *& p){
         return p == nullptr;
     }
-
-// __________________________________________ Lectura de archivos de zombies ______________________________________________//
-    bool lecturaZombies(Zombie **zombies){ 
-        ifstream archivo(".zmb", ios::in);
-        if (!archivo) {
-            cout << "Error al abrir el archivo." << endl;
-            system("pause");
-            cout << endl;  
-            return false;
-        }else{
-            string nombre, aux; 
-            int fortaleza, danio; 
-            int cantidad_zombie; 
-            archivo >> cantidad_zombie; 
-            archivo.ignore();
-            int cont = 0;
-            while(cont<cantidad_zombie){
-                getline(archivo, aux);
-                if(aux == "---"){
-                    getline(archivo, nombre);   
-                    archivo >> fortaleza; 
-                    archivo >> danio; 
-                    cont++;
-
-                    //***************************no tiene nombre de ataques, arreglar *********************
-                    Agregar_Ultimo_especifico(nombre, fortaleza, danio, zombies);
-                }
-            // convierte variables que son strings en numeros
-            //int num_vida = stoi(vida); 
-            }
-
-        archivo.close(); // Cerramos archivo 
-        cout << "Los jugadores se han cargado con exito !!" << endl; 
-        leerlist(); 
-        return true; 
-        }
-    }
-
-
 };

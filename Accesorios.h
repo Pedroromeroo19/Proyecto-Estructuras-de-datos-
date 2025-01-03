@@ -5,6 +5,9 @@ using namespace std;
 #ifndef MOCHILA_H
 #define MOCHILA_H
 
+#include <iostream>
+using namespace std;
+
 struct mochila
 {   
     // Datos mochila
@@ -40,6 +43,10 @@ struct mochila
             Agregar_Medio_especifico(nombre,usos, tipo_acc,valor, posicion , cabeza, size);
             size = size + 1 ;
         }
+    }
+
+    void agregar_accesorios_por_zmb(){
+        lectura_accesorios(cabeza);
     }
     
     void leer_lista_accesorios(){
@@ -255,6 +262,43 @@ struct mochila
 //___________________________________________funcion para saber si esta vacia______________________________________________
     bool estavacia(accesorios *& p){
         return p == nullptr;
+    }
+
+//___________________________ Lectura de archivos _______________________
+    bool lectura_accesorios(accesorios *& mochila){ 
+        ifstream archivo("Accesorio.zmb", ios::in);
+        if (!archivo) {
+            cout << "Error al abrir el archivo." << endl;
+            system("pause");
+            cout << endl;  
+            return false;
+        }else{
+            string nombre, tipo,  aux; 
+            int valor, usos, pos; 
+            int cantidad_acc; 
+            archivo >> cantidad_acc; 
+            archivo.ignore();
+            int cont = 0;
+            while(cont<cantidad_acc){
+                getline(archivo, aux);
+                if(aux == "---"){
+                    archivo >> pos; 
+                    getline(archivo, nombre); 
+                    getline(archivo,tipo );  
+                    archivo >> valor; 
+                    archivo >> usos; 
+                    cont++;
+                    agregar_espec_accesorio(-1, nombre, tipo,valor, usos );
+                }
+            // convierte variables que son strings en numeros
+            //int num_vida = stoi(vida); 
+            }
+
+        archivo.close(); // Cerramos archivo 
+        //cout << "Los jugadores se han cargado con exito !!" << endl; 
+        //leerlistacc(); 
+        return true; 
+        }
     }
 };
 

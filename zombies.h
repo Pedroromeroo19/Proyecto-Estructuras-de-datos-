@@ -65,6 +65,10 @@ struct zombies
 
     }
 
+    void agregar_zombies_por_zmb(){
+        lecturaZombies(cabeza);
+    }
+
     //_________________________________________________________Funcion lear (read)________________________________________________
     void leer_lista_zombies(){
         Zombie* aux1 = cabeza;
@@ -463,4 +467,43 @@ struct zombies
     bool estavacia(Zombie *& p){
         return p == nullptr;
     }
+
+//__________________________________________ Lectura de archivos de zombies _______________________________________________
+    bool lecturaZombies(Zombie *& Cabeza){ 
+        ifstream archivo("Zombie.zmb", ios::in);
+        if (!archivo) {
+            cout << "Error al abrir el archivo." << endl;
+            system("pause");
+            cout << endl;  
+            return false;
+        }else{
+            string nombre, aux; 
+            int fortaleza, danio; 
+            int cantidad_zombie; 
+            archivo >> cantidad_zombie; 
+            archivo.ignore();
+            int cont = 0;
+            while(cont<cantidad_zombie){
+                getline(archivo, aux);
+                if(aux == "---"){
+                    getline(archivo, nombre);   
+                    archivo >> fortaleza; 
+                    archivo >> danio; 
+                    cont++;
+
+                    //**************no tiene nombre de ataques, arreglar *********************
+                    agregar_espec_zombies(-1,nombre,fortaleza,danio);
+                }
+            // convierte variables que son strings en numeros
+            //int num_vida = stoi(vida); 
+            }
+
+        archivo.close(); // Cerramos archivo 
+        //cout << "Los jugadores se han cargado con exito !!" << endl; 
+        //leerlist(); 
+        return true; 
+        }
+    }
+
+
 };

@@ -37,10 +37,14 @@ struct Soldados
     
     //Por hacer
     void agregarlistref(){
-
+        
     }
 
-    void leerlist(){
+    void agregar_soldados_por_zmb(){
+        lecturasoldados(cabeza);
+    }
+
+    void leer_lista_soldados(){
         soldado* aux1 = cabeza;
         int valor_pos = size;
         while (aux1 != NULL){
@@ -104,10 +108,9 @@ struct Soldados
             delete aux2;
         }
         
-    }
+    }}
 
-    
-}
+
 
     private:
 
@@ -229,5 +232,44 @@ struct Soldados
 //___________________________________________funcion para saber si esta vacia______________________________________________
     bool estavacia(soldado *& p){
         return p == nullptr;
+    }
+    
+//____________________________________________Funcion para leer soldado___________________________________________________
+
+    bool lecturasoldados(soldado *& cabeza){ 
+        ifstream archivo("Soldado.zmb", ios::in);
+        if (!archivo) {
+            cout << "Error al abrir el archivo." << endl;
+            system("pause");
+            cout << endl;  
+            return false;
+        }else{
+            string nombre, aux; 
+            int vida; 
+            int cantidad_soldados; 
+            archivo >> cantidad_soldados; 
+            archivo.ignore();
+            int cont = 0; 
+            while(cont<cantidad_soldados){
+                getline(archivo, aux);
+                if(aux == "---"){
+                    getline(archivo, nombre);  
+                    archivo >> vida; 
+                    //cout <<"nombre antes de meterlo en la lista " << nombre << endl ; 
+                    //cout <<"nombre antes de meterlo en la lista " << vida << endl; 
+                    cont++;
+                    //cout << cont << endl; 
+                    agregar_espec_soldados(-1, nombre, vida);
+                    //cout << "aqui termins" <<(cabeza)->Nombre_soldado << endl ;
+                }
+            // convierte variables que son strings en numeros
+            //int num_vida = stoi(vida); 
+            }
+
+        archivo.close(); // Cerramos archivo 
+        //cout << "Los jugadores se han cargado con exito !!" << endl; 
+        //leerlist(*soldado);
+        return true; 
+        }
     }
 };

@@ -22,6 +22,8 @@ using namespace std;
 
 //                                       ESTRUCTURAS DE LOS DATOS                                                   // 
 
+//__________________Funcion para leer soldado________________
+ 
 
 //____________________________________________ MENU _______________________________________//
 void mostrarMenu(){
@@ -33,7 +35,7 @@ void mostrarMenu(){
     cout << "4. Salir" <<endl;
     cout << "-----------------------------------------" << endl; 
 }
- 
+
 
 // ---------------------------------------------- MAIN ------------------------------------ //
 int main(){
@@ -53,7 +55,9 @@ int main(){
     // Esto es una lista de accesorios que describe todo los accesorios en el juego y por funcionalidas 
     // para el manejo de la lista de mochilas se usa el nombre mochila
 
-
+    team1.agregar_soldados_por_zmb();
+    lista_zombies.agregar_zombies_por_zmb();
+    lista_accesorios_principal.agregar_accesorios_por_zmb();
     
     string personajes;
     string accaux; 
@@ -127,7 +131,8 @@ int main(){
                 cout << "2. Manejo de Zombie "<< endl; 
                 cout << "3. Manejo de mochila" <<endl;
                 cout << "4. Manejo de Accesorio" <<endl;
-                cout << "5. Salir" <<endl;
+                cout << "5. Subir documentos con datos predeterminados"<< endl;
+                cout << "6. Salir" <<endl;
                 cout << "-----------------------------------------" << endl; 
                 cin >> opcion_configuracion;
 
@@ -186,7 +191,7 @@ int main(){
                                     {
 
                                         cout << "Mostrando soldados" << endl;
-                                        team1.leerlist();
+                                        team1.leer_lista_soldados();
 
                                         break;
                                                     
@@ -272,6 +277,7 @@ int main(){
                                     }
 
                             }
+                        break;
                                 
                     }
                             
@@ -423,6 +429,7 @@ int main(){
                                         break;
                                 }
                         }
+                        break;
                     }
                     case 3:
                     {
@@ -653,12 +660,13 @@ int main(){
                                 cout << "Saliendo al menú principal." << endl;
                                 break;
                             }
-
+                            default:
+                            {
+                                cout << "Opción invalida. Intentalo de nuevo." << endl;
+                                break;
+                            }
                         }
-
-
-
-
+                        break;
                     }
                     case 4:
                     {
@@ -813,12 +821,29 @@ int main(){
                                 break;
                             }
                         }
+                        break;
+                    }
+                    case 5:
+                    {
+                        cout << "Subiendo documentos Predeterminados" << endl;
+                        team1.agregar_soldados_por_zmb();
+                        lista_zombies.agregar_zombies_por_zmb();
+                        lista_accesorios_principal.agregar_accesorios_por_zmb();
+                        break;
+                    }
+                    case 6:
+                    {
+                        cout << "Saliendo al menú principal." << endl;
+                        break;
                     }
                 }
+                break;
             }
 
-            case 3:{
+            case 3:
+            {
                     int opc2;
+
                     do{
                         system("cls");
                         cout << MAGENTA << "=== ¿COMO JUGAR? ===" << RESET <<endl;
@@ -828,7 +853,7 @@ int main(){
                         cout <<BLUE<< "4. Salir." << RESET << endl;
                         cout <<GREEN << "Indica que quieres saber soldado?" << RESET << endl;                            cin >> opc2;
                         switch(opc2){
-                            case 1:
+                            case 1:{
                                 system("cls");
 
                                 cout << MAGENTA << "Londres, 2024. " << RESET << "Lo que comenzó como una serie de extraños síntomas en pequeñas" << endl;
@@ -848,8 +873,8 @@ int main(){
                                 cout << "estaba pagando las consecuencias." << endl;
                                 system("pause");
                                 system("cls");
-                                break;
-                            case 2:
+                                break;}
+                            case 2:{
                                 system("cls");
 
                                 cout << BG_GREEN << "· Zombies rápidos y ágiles" << RESET <<": Estos zombies son extremadamente rápidos y ágiles, capaces de" << endl;
@@ -874,8 +899,8 @@ int main(){
                                  system("pause");
                                 system("cls");
 
-                                break;
-                            case 3:
+                                break;}
+                            case 3:{
                                 system("cls");
 
                                 cout << GREEN << "Consejos adicionales:" << endl;
@@ -894,17 +919,17 @@ int main(){
                                 system("pause");
                                 system("cls");
 
-                                break;                           
-                            case 4:
+                                break;}                           
+                            case 4:{
                                 system("cls");
                                 cout << "Saliendo al menú principal." << endl;
                                 system("cls");
-                                break;
-                            default:
+                                break;}
+                            default:{
                                 system("cls");
                                 cout << RED << "Opción invalida. Intentalo de nuevo." << RESET << endl;
                                 system("cls");
-                                break;
+                                break;}
                         }  
                         }while(opc2 != 4);
                         break;
@@ -930,4 +955,3 @@ int main(){
     
     return 0;
 }
-

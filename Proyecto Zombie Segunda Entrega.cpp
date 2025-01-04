@@ -114,7 +114,10 @@ int main(){
 
                 cout << "Equipo" << equipo2 << "es hora de elegir los soldados que te acompaniaran en esta aventura!" << endl; 
                 AgregarSoldadoEquipoPorNombre(&primerequipo, equipo2, primerSoldado); 
-                       
+                                      
+             
+                 //comenzar misiones, batalla etc 
+
  
                     break;
             }

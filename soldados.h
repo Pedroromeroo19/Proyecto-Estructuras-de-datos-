@@ -34,28 +34,36 @@ struct Soldados
             size = size + 1 ;
         }
     }
-    
-    //Por hacer
-    void agregarlistref(){
-        
+  
+    int vida(){
+        int vida = 0; 
+        cout  <<"Indique la cantidad de vida que tiene el jugador de la lista" << endl; 
+        cin >> vida; 
+        return vida; 
+}
+
+    string nombreSoldado(){
+        string nombresoldado; 
+        cout << "Indique el nombre del soldado que esta en la lista" << endl; 
+        cin >>nombresoldado; 
+        return nombresoldado;
     }
 
     void agregar_soldados_por_zmb(){
         lecturasoldados(cabeza);
     }
 
-    void leer_lista_soldados(){
-        soldado* aux1 = cabeza;
-        int valor_pos = size;
-        while (aux1 != NULL){
-            cout << "Posicion: "<< valor_pos << endl;
-            valor_pos=valor_pos-1;
-            cout << "Caracteristicas de los Zombies:"<< endl;
-            cout << "Nombre del soldado: "<< aux1->Nombre_soldado << endl;
-            cout << "Vida del soldado: "<< aux1->vida << endl;
-            cout << endl;
-            aux1= aux1->next;
-        }
+   void leerlistsoldado(soldado *lista){
+        soldado *mover;
+        int cont = 1; 
+        while (!estavaciasoldado(lista)){
+            mover = lista;
+            cout <<"Lista de Jugadores: "<<endl;
+            cout << "Soldado: " << cont << ")" << GREEN << "Nombre: "<<		mover->Nombre_soldado<< RESET << endl;
+            cout <<"Vida: "<<mover->vida<<endl;
+            cout << "" << endl; 
+            mover = mover->next;
+        }  
     }
 
     void modificar_list_soldado(int posicion, string  nombre, int vida){        
@@ -90,10 +98,7 @@ struct Soldados
             size = size - 1 ;
         }
     }
-    //Por hacer
-    void eliminarlistref(){
 
-    }
 
     void eliminar_lista_zombie(soldado *& cabeza){
     if(!estavacia(cabeza)){

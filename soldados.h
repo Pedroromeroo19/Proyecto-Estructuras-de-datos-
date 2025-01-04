@@ -22,15 +22,15 @@ struct Soldados
             return;
         }
         if ((posicion == -1)or(posicion==size)){ //caso agregar ultimo
-            Agregar_Ultimo_especifico(nombre, vida,  cabeza);
+            Agregar_Ultimo_especifico_soldado(nombre, vida,  cabeza);
             size = size + 1 ;
         }
         if (posicion == 0){ //caso agregar primero
-            Agregar_Al_final_especifico(nombre, vida , cabeza);
+            Agregar_Al_final_especifico_soldado(nombre, vida , cabeza);
             size = size + 1 ;
         }
         if (posicion>0 && posicion<size){ //caso agregar en el medio
-            Agregar_Medio_especifico(nombre,  vida, posicion , cabeza, size);
+            Agregar_Medio_especifico_soldado(nombre,  vida, posicion , cabeza, size);
             size = size + 1 ;
         }
     }
@@ -80,28 +80,28 @@ struct Soldados
 
     }
 
-    void eliminarlistpos(int position){
+    void eliminarlistpossoldado(int position){
         if (position>size){
             cout << "Error : Se puso una posicion mayor al tamaño de la lista" << endl;
             return;
         }
         if ((position == -1)or(position==size)){ //caso eliminar ultimo
-            Eliminar_Ultimo(cabeza);
+            Eliminar_Ultimo_soldado(cabeza);
             size = size - 1 ;
         }
         if (position == 0){ //caso eliminar primero
-            eliminar_al_final(cabeza);
+            eliminar_al_final_soldado(cabeza);
             size = size - 1 ;
         }
         if (position>0 && position<size){ //caso agregar en el medio
-            eliminar_medio(position, cabeza, size);
+            eliminar_medio_soldado(position, cabeza, size);
             size = size - 1 ;
         }
     }
 
 
-    void eliminar_lista_zombie(soldado *& cabeza){
-    if(!estavacia(cabeza)){
+    void eliminar_lista_soldado(soldado *& cabeza){
+    if(!estavaciasoldado(cabeza)){
 
         soldado *aux1 = cabeza;
         soldado *aux2;
@@ -121,25 +121,25 @@ struct Soldados
 
 //_______________________________________________________Agregar Especifico_______________________________________________________
 
-    void Agregar_Ultimo_especifico(string  nombre, int vida, soldado *& cabeza){
+    void Agregar_Ultimo_especifico_soldado(string  nombre, int vida, soldado *& cabeza){
         soldado* nuevosoldado= new soldado;
 
         //Declaracion de datos
         nuevosoldado->Nombre_soldado= nombre;
         nuevosoldado->vida = vida;
     
-        if (estavacia(cabeza)){
+        if (estavaciasoldado(cabeza)){
             nuevosoldado->next= NULL;
         }
 
-        if (!estavacia(cabeza)){
+        if (!estavaciasoldado(cabeza)){
             nuevosoldado ->next= cabeza;
         }
 
         cabeza = nuevosoldado;
     }
 
-    void Agregar_Al_final_especifico(string  nombre, int vida, soldado *& cabeza){
+    void Agregar_Al_final_especifico_soldado(string  nombre, int vida, soldado *& cabeza){
         soldado* nuevosoldado = new soldado();
 
         //Declaracion de datos
@@ -158,7 +158,7 @@ struct Soldados
         }
     }
 
-    void Agregar_Medio_especifico(string  nombre, int vida ,int posicion, soldado *& cabeza,int tamano){
+    void Agregar_Medio_especifico_soldado(string  nombre, int vida ,int posicion, soldado *& cabeza,int tamano){
         soldado* nuevosoldado = new soldado;
 
         //Declaracion de datos
@@ -179,14 +179,14 @@ struct Soldados
 
 
 //_______________________________________________________funciones eliminar________________________________________________
-    void Eliminar_Ultimo(soldado *& cabeza){
+    void Eliminar_Ultimo_soldado(soldado *& cabeza){
         soldado *aux1 = cabeza->next;
         soldado *aux2 = cabeza;
         cabeza= aux1;
         delete aux2;
     }
 
-    void eliminar_medio(int posicion, soldado *& cabeza, int tamano){
+    void eliminar_medio_soldado(int posicion, soldado *& cabeza, int tamano){
         soldado *aux1 = cabeza->next;
         soldado *aux2 = cabeza;
         int avanze= tamano - posicion - 1;
@@ -198,7 +198,7 @@ struct Soldados
         delete aux1;
     }
 
-    void eliminar_al_final(soldado *& cabeza){
+    void eliminar_al_final_soldado(soldado *& cabeza){
         soldado *aux1= cabeza->next;
         soldado *aux2= cabeza;
         while (aux1 != nullptr){
@@ -235,7 +235,7 @@ struct Soldados
     }
 
 //___________________________________________funcion para saber si esta vacia______________________________________________
-    bool estavacia(soldado *& p){
+    bool estavaciasoldado(soldado *& p){
         return p == nullptr;
     }
     

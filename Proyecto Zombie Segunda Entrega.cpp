@@ -14,7 +14,7 @@
 #include "zombies.h"
 #include "Mochila.h"
 #include "listamochila.h"
-
+#include "Equipos.h"
 
 using namespace std;
 
@@ -87,21 +87,33 @@ int main(){
                 cout<<"Ingrese el nombre del equipo 1:"<<endl;
                 getline(cin,equipo1);
                 cout<<""<<endl;
+                agregarUltimoEquipo(&primerequipo,equipo1);
+
+                cout<<"Ingrese el nombre del equipo 2:"<<endl;
+                getline(cin,equipo2);
+                cout<<""<<endl;
+                agregarUltimoEquipo(&primerequipo, equipo2); 
 
                 //system("pause");
 
                 cout<<""<<endl;
-                cout<<"Gracias a la Dra. Emily Carter ha desarrollado una cura"<<endl;
-                cout<<"y eligio a los equipos militares " << YELLOW  << equipo1  << RESET << endl;                        
-                cout<<"para distribuirla a traves de una red de tuneles del metro "<<endl;
+                cout<<"Gracias a la Dra. Emily Carter, se desarrollo una cura"<<endl;
+                cout<<"y eligio a los equipos militares " << YELLOW  << equipo1  << RESET << " y " << YELLOW << equipo2 << RESET <<endl;
+                cout<<"para distribuirla a traves de una red de tuneles de metro... "<<endl;
                 cout<<""<<endl;
 
                 //system("pause");
-
+                        
                 cout<<""<<endl;
-                cout<< equipo1 << "confiamos en usted para llevar la cura hasta su lugar de destino. Buena suerte!!"<<endl;
+                cout<< equipo1 << "!! y" << equipo2 <<"!! confiamos en ustedes para llevar la cura hasta su lugar de destino. Buena suerte!!"<<endl;
                 cout<<"Debe seleccionar con cuidado que soldados llevara a la disputa"<<endl;
                 // colocar opcion de elegir soldados en la batalla
+
+                cout << "Equipo " << equipo1 << "es hora de elegir los soldados que te acompaniaran en tu aventura" << endl; 
+                AgregarSoldadoEquipoPorNombre(&primerequipo, equipo1, primerSoldado); 
+
+                cout << "Equipo" << equipo2 << "es hora de elegir los soldados que te acompaniaran en esta aventura!" << endl; 
+                AgregarSoldadoEquipoPorNombre(&primerequipo, equipo2, primerSoldado); 
                        
  
                     break;

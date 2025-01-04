@@ -8,11 +8,9 @@
 #include "Colores.h"
 
 //Todo el manejo de zombies, soldado, accesorios y mapa
-#include "soldados_seguro.h"
-
-
+#include "soldados.h"
 #include "zombies.h"
-#include "Mochila.h"
+#include "Accesorios.h"
 #include "listamochila.h"
 #include "Equipos.h"
 

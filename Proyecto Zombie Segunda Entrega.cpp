@@ -39,8 +39,6 @@ void mostrarMenu(){
 
 // ---------------------------------------------- MAIN ------------------------------------ //
 int main(){
-    string equipo1;
-    
     //srand(time(0));
     // Zombie* lista_zombie = CrearTropaZombie();
     // recorridozombies(lista_zombie);
@@ -48,7 +46,10 @@ int main(){
     // cout << calculador(lista_zombie) << endl;
 
     //Declaracion lista soldados
-    Soldados team1;
+    soldado *primerSoldado = nullptr; 
+    lecturasoldados(&primerSoldado);
+    string equipo1; 
+    string equipo2; 
     zombies lista_zombies;
     mochila lista_accesorios_principal; 
     listamochilas lista_mochilas;

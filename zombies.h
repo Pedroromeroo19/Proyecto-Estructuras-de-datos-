@@ -104,7 +104,7 @@ struct zombies
     }
 
     //_____________________________________________________Funcion eliminar (Delete)_____________________________________________
-    void eliminarlistpos(int position){
+    void eliminar_zombie(int position){
         if (position>size){
             cout << "Error : Se puso una posicion mayor al tamaño de la lista" << endl;
             return;
@@ -142,32 +142,64 @@ struct zombies
             delete aux2;
         }
         
-    }
+    }}
 
-    /*Zombie* CrearTropaZombie(){
-    Zombie *lista_zombie= NULL;
-
-    for (int i = 0; i < 10; i++)
-    {
-        int randomnum = (rand() % 5);
-        zombiestipo randomColor = static_cast<zombiestipo>(randomnum);
-
-        agregar_zombie(randomColor,lista_zombie);
-    }
-    return lista_zombie;
-}*/
-
-  /*int calculador(Zombie *& cabeza){
-    Zombie *aux1;
-    aux1 = cabeza;
-    int valor;
-    while (aux1->siguiente != NULL){
-            valor = valor + aux1->Danno;
-            aux1= aux1->siguiente;
+    int calculador(Zombie *& cabeza){
+        Zombie *aux1;
+        aux1 = cabeza;
+        int valor;
+        while (aux1->next != NULL){
+                valor = valor + aux1->Danno;
+                aux1= aux1->next;
         }
-    return valor;
-    }*/
-}
+        return valor;
+    }
+    
+    string retornar_nombre_zombie(int posicion){
+        return retornar_nombre_zombie(cabeza, posicion);
+    }
+
+    int retornar_vida_zombie(int posicion){
+        return retornar_vida_zombie(cabeza, posicion);
+    }
+
+    int retornar_dano_zombie(int posicion){
+        return retornar_danio_zombie(cabeza, posicion);
+    }
+
+    zombies replicador_de_zombies(string nombre, int replicas, zombies lista_zombie){
+
+        bool existe_el_nombre;
+        int fortaleza;
+        int danno;
+        
+        for (int i = 0; i <= lista_zombie.size ; i++){
+            if (nombre == lista_zombie.retornar_nombre_zombie(i)){ 
+                existe_el_nombre = true;
+                fortaleza = lista_zombie.retornar_vida_zombie(i);
+                danno = lista_zombie.retornar_dano_zombie(i);
+                break;
+            }
+            else{
+                existe_el_nombre = false;
+            }
+        }
+        
+        if (existe_el_nombre == false){
+            cout << "El nombre del zombie que se quiere replicar no existe en la lista de zombies" << endl;
+            return lista_zombie;
+        }
+
+        if (existe_el_nombre == true){
+            for (int i = 0; i < replicas; i++)
+            {
+                lista_zombie.agregar_espec_zombies(-1, nombre, fortaleza, danno);
+            }
+            return lista_zombie;
+        }
+    }
+    
+
 
     // Se Usa el private para las subfunciones en cada caso y para crear una capa de abstraccion entre las funciones principales y las subfunciones para casos especificos 
     private:
@@ -504,6 +536,66 @@ struct zombies
         return true; 
         }
     }
+
+    string retornar_nombre_zombie(Zombie *& head, int posicion) {
+        if (posicion < 0 || posicion >= size) {
+            cout << "Error: Posición fuera de rango." << endl;
+            return ""; // O cualquier valor que indique un error
+        }
+
+        Zombie *aux1 = head;
+        int avanze = size - posicion;
+
+        for (int i = 0; i < avanze; i++) {
+            if (aux1 == nullptr) {
+                cout << "Error: Nodo no encontrado." << endl;
+                return ""; // O cualquier valor que indique un error
+            }
+            aux1 = aux1->next;
+        }
+
+        return aux1->Nombre_del_zombie;
+    }
+
+    int retornar_vida_zombie(Zombie *& head, int posicion) {
+        if (posicion < 0 || posicion >= size) {
+            cout << "Error: Posición fuera de rango." << endl;
+            return -1; // O cualquier valor que indique un error
+        }
+
+        Zombie *aux1 = head;
+        int avanze = size - posicion;
+
+        for (int i = 0; i < avanze; i++) {
+            if (aux1 == nullptr) {
+                cout << "Error: Nodo no encontrado." << endl;
+                return -1; // O cualquier valor que indique un error
+            }
+            aux1 = aux1->next;
+        }
+
+        return aux1->fortaleza;
+    }
+
+    int retornar_danio_zombie(Zombie *& head, int posicion) {
+        if (posicion < 0 || posicion >= size) {
+            cout << "Error: Posición fuera de rango." << endl;
+            return -1; // O cualquier valor que indique un error
+        }
+
+        Zombie *aux1 = head;
+        int avanze = size - posicion;
+
+        for (int i = 0; i < avanze; i++) {
+            if (aux1 == nullptr) {
+                cout << "Error: Nodo no encontrado." << endl;
+                return -1; // O cualquier valor que indique un error
+            }
+            aux1 = aux1->next;
+        }
+
+        return aux1->Danno;
+}
 
 
 };

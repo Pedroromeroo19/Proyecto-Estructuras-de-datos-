@@ -22,48 +22,40 @@ struct Soldados
             return;
         }
         if ((posicion == -1)or(posicion==size)){ //caso agregar ultimo
-            Agregar_Ultimo_especifico_soldado(nombre, vida,  cabeza);
+            Agregar_Ultimo_especifico(nombre, vida,  cabeza);
             size = size + 1 ;
         }
         if (posicion == 0){ //caso agregar primero
-            Agregar_Al_final_especifico_soldado(nombre, vida , cabeza);
+            Agregar_Al_final_especifico(nombre, vida , cabeza);
             size = size + 1 ;
         }
         if (posicion>0 && posicion<size){ //caso agregar en el medio
-            Agregar_Medio_especifico_soldado(nombre,  vida, posicion , cabeza, size);
+            Agregar_Medio_especifico(nombre,  vida, posicion , cabeza, size);
             size = size + 1 ;
         }
     }
-  
-    int vida(){
-        int vida = 0; 
-        cout  <<"Indique la cantidad de vida que tiene el jugador de la lista" << endl; 
-        cin >> vida; 
-        return vida; 
-}
-
-    string nombreSoldado(){
-        string nombresoldado; 
-        cout << "Indique el nombre del soldado que esta en la lista" << endl; 
-        cin >>nombresoldado; 
-        return nombresoldado;
+    
+    //Por hacer
+    void agregarlistref(){
+        
     }
 
     void agregar_soldados_por_zmb(){
         lecturasoldados(cabeza);
     }
 
-   void leerlistsoldado(soldado *lista){
-        soldado *mover;
-        int cont = 1; 
-        while (!estavaciasoldado(lista)){
-            mover = lista;
-            cout <<"Lista de Jugadores: "<<endl;
-            cout << "Soldado: " << cont << ")" << GREEN << "Nombre: "<<		mover->Nombre_soldado<< RESET << endl;
-            cout <<"Vida: "<<mover->vida<<endl;
-            cout << "" << endl; 
-            mover = mover->next;
-        }  
+    void leer_lista_soldados(){
+        soldado* aux1 = cabeza;
+        int valor_pos = size;
+        while (aux1 != NULL){
+            cout << "Posicion: "<< valor_pos << endl;
+            valor_pos=valor_pos-1;
+            cout << "Caracteristicas de los Zombies:"<< endl;
+            cout << "Nombre del soldado: "<< aux1->Nombre_soldado << endl;
+            cout << "Vida del soldado: "<< aux1->vida << endl;
+            cout << endl;
+            aux1= aux1->next;
+        }
     }
 
     void modificar_list_soldado(int posicion, string  nombre, int vida){        
@@ -77,31 +69,38 @@ struct Soldados
         if (vida != 0){
             modificar_vida(vida, posicion, cabeza, size);
         }
+        if (posicion<0){
+            cout << "Error : Se puso una posicion menor a 0" << endl;
+            return;
+        }
 
     }
 
-    void eliminarlistpossoldado(int position){
+    void eliminar_soldado(int position){
         if (position>size){
             cout << "Error : Se puso una posicion mayor al tamaño de la lista" << endl;
             return;
         }
         if ((position == -1)or(position==size)){ //caso eliminar ultimo
-            Eliminar_Ultimo_soldado(cabeza);
+            Eliminar_Ultimo(cabeza);
             size = size - 1 ;
         }
         if (position == 0){ //caso eliminar primero
-            eliminar_al_final_soldado(cabeza);
+            eliminar_al_final(cabeza);
             size = size - 1 ;
         }
         if (position>0 && position<size){ //caso agregar en el medio
-            eliminar_medio_soldado(position, cabeza, size);
+            eliminar_medio(position, cabeza, size);
             size = size - 1 ;
         }
     }
+    //Por hacer
+    void eliminarlistref(){
 
+    }
 
-    void eliminar_lista_soldado(soldado *& cabeza){
-    if(!estavaciasoldado(cabeza)){
+    void eliminar_lista_zombie(soldado *& cabeza){
+    if(!estavacia(cabeza)){
 
         soldado *aux1 = cabeza;
         soldado *aux2;
@@ -115,31 +114,48 @@ struct Soldados
         
     }}
 
+    string retornar_nombre_soldado(int posicion){
+        return retornar_nombre_soldados(cabeza, posicion);
+    }
+
+    int retornar_vida_soldado(int posicion){
+        return retornar_vida_soldados(cabeza, posicion);
+    }
+
+    int actualizacion_de_vida(int posicion, int vida){
+        soldado *aux1 = cabeza;
+        int avanze= size - posicion;
+        for (int i=0;i<avanze;i++){
+            aux1= aux1->next;
+        }
+        aux1->vida = aux1->vida - vida;
+        return aux1->vida;
+    }
 
 
     private:
 
 //_______________________________________________________Agregar Especifico_______________________________________________________
 
-    void Agregar_Ultimo_especifico_soldado(string  nombre, int vida, soldado *& cabeza){
-        soldado* nuevosoldado= new soldado;
+    void Agregar_Ultimo_especifico(string  nombre, int vida, soldado *& cabeza){
+        soldado* nuevosoldado= new soldado();
 
         //Declaracion de datos
         nuevosoldado->Nombre_soldado= nombre;
         nuevosoldado->vida = vida;
     
-        if (estavaciasoldado(cabeza)){
+        if (estavacia(cabeza)){
             nuevosoldado->next= NULL;
         }
 
-        if (!estavaciasoldado(cabeza)){
+        if (!estavacia(cabeza)){
             nuevosoldado ->next= cabeza;
         }
 
         cabeza = nuevosoldado;
     }
 
-    void Agregar_Al_final_especifico_soldado(string  nombre, int vida, soldado *& cabeza){
+    void Agregar_Al_final_especifico(string  nombre, int vida, soldado *& cabeza){
         soldado* nuevosoldado = new soldado();
 
         //Declaracion de datos
@@ -158,7 +174,7 @@ struct Soldados
         }
     }
 
-    void Agregar_Medio_especifico_soldado(string  nombre, int vida ,int posicion, soldado *& cabeza,int tamano){
+    void Agregar_Medio_especifico(string  nombre, int vida ,int posicion, soldado *& cabeza,int tamano){
         soldado* nuevosoldado = new soldado;
 
         //Declaracion de datos
@@ -179,14 +195,14 @@ struct Soldados
 
 
 //_______________________________________________________funciones eliminar________________________________________________
-    void Eliminar_Ultimo_soldado(soldado *& cabeza){
+    void Eliminar_Ultimo(soldado *& cabeza){
         soldado *aux1 = cabeza->next;
         soldado *aux2 = cabeza;
         cabeza= aux1;
         delete aux2;
     }
 
-    void eliminar_medio_soldado(int posicion, soldado *& cabeza, int tamano){
+    void eliminar_medio(int posicion, soldado *& cabeza, int tamano){
         soldado *aux1 = cabeza->next;
         soldado *aux2 = cabeza;
         int avanze= tamano - posicion - 1;
@@ -198,7 +214,7 @@ struct Soldados
         delete aux1;
     }
 
-    void eliminar_al_final_soldado(soldado *& cabeza){
+    void eliminar_al_final(soldado *& cabeza){
         soldado *aux1= cabeza->next;
         soldado *aux2= cabeza;
         while (aux1 != nullptr){
@@ -214,7 +230,6 @@ struct Soldados
 
 
 //___________________________________________________funciones modificar lista___________________________________________
-
     void modificar_nombre(string  nombre,int posicion, soldado *& cabeza, int tamano){
         soldado *aux1 = cabeza;
         int avanze= tamano - posicion;
@@ -235,7 +250,7 @@ struct Soldados
     }
 
 //___________________________________________funcion para saber si esta vacia______________________________________________
-    bool estavaciasoldado(soldado *& p){
+    bool estavacia(soldado *& p){
         return p == nullptr;
     }
     
@@ -277,4 +292,46 @@ struct Soldados
         return true; 
         }
     }
+
+    //_______________________________________________Funciones retornar datos____________________________________________________
+
+    string retornar_nombre_soldados(soldado *& cabeza, int posicion) {
+        if (posicion < 0 || posicion >= size) {
+            cout << "Error: Posición fuera de rango." << endl;
+            return ""; // O cualquier valor que indique un error
+        }
+
+        soldado *aux1 = cabeza;
+        int avanze = size - posicion;
+
+        for (int i = 0; i < avanze; i++) {
+            if (aux1 == nullptr) {
+                cout << "Error: Nodo no encontrado." << endl;
+                return ""; // O cualquier valor que indique un error
+            }
+            aux1 = aux1->next;
+        }
+
+        return aux1->Nombre_soldado;
+    }
+
+    int retornar_vida_soldados(soldado *& cabeza, int posicion) {
+        if (posicion < 0 || posicion >= size) {
+            cout << "Error: Posición fuera de rango." << endl;
+            return -1; // O cualquier valor que indique un error
+        }
+
+        soldado *aux1 = cabeza;
+        int avanze = size - posicion - 1;
+
+        for (int i = 0; i < avanze; i++) {
+            if (aux1 == nullptr) {
+                cout << "Error: Nodo no encontrado." << endl;
+                return -1; // O cualquier valor que indique un error
+            }
+            aux1 = aux1->next;
+        }
+
+    return aux1->vida;
+}
 };

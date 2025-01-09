@@ -5,9 +5,6 @@ using namespace std;
 #ifndef MOCHILA_H
 #define MOCHILA_H
 
-#include <iostream>
-using namespace std;
-
 struct mochila
 {   
     // Datos mochila
@@ -118,6 +115,59 @@ struct mochila
         }
     }
 
+    string retornar_nombre_accesorio(int posicion){
+        return retornar_Nombre_del_Accesorio(cabeza, posicion);
+    }
+
+    string retornar_tipo_accesorio(int posicion){
+        return retornar_tipo_de_accesorio(cabeza, posicion);
+    }
+
+    int retornar_danno_accesorio(int posicion){
+        return retornar_valor(cabeza, posicion);
+    }
+
+    int retornar_usos_accesorio(int posicion){
+        return retornar_usos(cabeza, posicion);
+    }
+
+    int danno_total(){
+        accesorios* aux1 = cabeza;
+        int danno_total = 0;
+        while (aux1 != NULL){
+            danno_total = danno_total + aux1->valor;
+            aux1 = aux1->next;
+        }
+        return danno_total;
+    };
+
+    void actualizacion_de_usos() {
+    accesorios* aux1 = cabeza;
+    accesorios* prev = nullptr;
+    int contador = 0; // Inicializar contador
+
+    while (aux1 != NULL) {
+        aux1->usos = aux1->usos - 1;
+        if (aux1->usos < 0) {
+            if (prev == nullptr) {
+                // Eliminar el primer nodo
+                cabeza = aux1->next;
+                delete aux1;
+                aux1 = cabeza;
+            } else {
+                // Eliminar un nodo en el medio o al final
+                prev->next = aux1->next;
+                delete aux1;
+                aux1 = prev->next;
+            }
+            contador--; // Ajustar el contador después de eliminar un accesorio
+        } else {
+            prev = aux1;
+            aux1 = aux1->next;
+        }
+        contador++;
+        }
+    }
 
     private:
 
@@ -300,6 +350,43 @@ struct mochila
         return true; 
         }
     }
+
+    string retornar_Nombre_del_Accesorio(accesorios *& cabeza, int posicion){
+        accesorios *aux1 = cabeza;
+        int avanze= size - posicion;
+        for (int i=0;i<avanze;i++){
+            aux1= aux1->next;
+        }
+        return aux1->Nombre_del_Accesorio;
+
+    }
+    
+    string retornar_tipo_de_accesorio(accesorios *& cabeza, int posicion){
+        accesorios *aux1 = cabeza;
+        int avanze= size - posicion;
+        for (int i=0;i<avanze;i++){
+            aux1= aux1->next;
+        }
+        return aux1->tipo_de_accesorio;
+    }
+
+    int retornar_valor(accesorios *& cabeza, int posicion){
+        accesorios *aux1 = cabeza;
+        int avanze= size - posicion;
+        for (int i=0;i<avanze;i++){
+            aux1= aux1->next;
+        }
+        return aux1->valor;
+    }
+
+    int retornar_usos(accesorios *& cabeza, int posicion){
+        accesorios *aux1 = cabeza;
+        int avanze= size - posicion;
+        for (int i=0;i<avanze;i++){
+            aux1= aux1->next;
+        }
+        return aux1->usos;
+    } 
 };
 
 #endif

@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include "Bitacora.h"
 using namespace std;
 
 struct zombies
@@ -501,7 +502,7 @@ struct zombies
     }
 
 //__________________________________________ Lectura de archivos de zombies _______________________________________________
-    bool lecturaZombies(Zombie *& Cabeza){ 
+    bool lecturaZombies(Zombie *&Cabeza){ 
         ifstream archivo("Zombie.zmb", ios::in);
         if (!archivo) {
             cout << "Error al abrir el archivo." << endl;
@@ -522,8 +523,6 @@ struct zombies
                     archivo >> fortaleza; 
                     archivo >> danio; 
                     cont++;
-
-                    //**************no tiene nombre de ataques, arreglar *********************
                     agregar_espec_zombies(-1,nombre,fortaleza,danio);
                 }
             // convierte variables que son strings en numeros
@@ -597,5 +596,38 @@ struct zombies
         return aux1->Danno;
 }
 
+    void agregar_zombie(Bitacora* bitacora, const string& nombre, int fortaleza, int danno) {
+        Zombie* nuevo = new Zombie{nombre, fortaleza, danno, cabeza};
+        cabeza = nuevo;
+        size++;
+        registrarEvento(bitacora, "Zombie agregado: " + nombre);
+    }
+
+    void eliminar_zombie(Bitacora* bitacora, int position) {
+        if (position >= size || position < 0) {
+            cout << "Error: Posición inválida." << endl;
+            return;
+        }
+
+        Zombie* current = cabeza;
+        Zombie* prev = nullptr;
+
+        int i = 0;
+        while (i < position) {
+            prev = current;
+            current = current->next;
+            i++;
+        }
+
+        if (prev == nullptr) {
+            cabeza = current->next;
+        } else {
+            prev->next = current->next;
+        }
+
+        registrarZombieEliminado(bitacora, current->Nombre_del_zombie);
+        delete current;
+        size--;
+    }
 
 };

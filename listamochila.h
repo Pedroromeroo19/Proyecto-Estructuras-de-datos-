@@ -1,5 +1,5 @@
 #include <iostream>
-#include "mochila.h"
+#include "Accesorios.h"
 using namespace std;
 
 struct listamochilas

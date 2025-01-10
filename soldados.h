@@ -2,10 +2,10 @@
 #include <fstream>
 #include <sstream>
 #include "Colores.h"
+#include "Bitacora.h"
 using namespace std;
 
-struct Soldados
-{   
+struct Soldados{   
 
     struct soldado{
         string Nombre_soldado; 
@@ -35,28 +35,24 @@ struct Soldados
         }
     }
     
-    //Por hacer
-    void agregarlistref(){
-        
+    int vida(){
+        int vida = 0; 
+        cout  <<"Indique la cantidad de vida que tiene el soldado de la lista" << endl; 
+        cin >> vida; 
+        return vida; 
     }
 
+    string nombreSoldado(){
+        string nombresoldado; 
+        cout << "Indique el nombre del soldado que esta en la lista" << endl; 
+        cin >>nombresoldado; 
+        return nombresoldado;
+    }
+    
     void agregar_soldados_por_zmb(){
         lecturasoldados(cabeza);
     }
 
-    void leer_lista_soldados(){
-        soldado* aux1 = cabeza;
-        int valor_pos = size;
-        while (aux1 != NULL){
-            cout << "Posicion: "<< valor_pos << endl;
-            valor_pos=valor_pos-1;
-            cout << "Caracteristicas de los Zombies:"<< endl;
-            cout << "Nombre del soldado: "<< aux1->Nombre_soldado << endl;
-            cout << "Vida del soldado: "<< aux1->vida << endl;
-            cout << endl;
-            aux1= aux1->next;
-        }
-    }
 
     void modificar_list_soldado(int posicion, string  nombre, int vida){        
         if (posicion>size){
@@ -94,11 +90,7 @@ struct Soldados
             size = size - 1 ;
         }
     }
-    //Por hacer
-    void eliminarlistref(){
-
-    }
-
+   
     void eliminar_lista_zombie(soldado *& cabeza){
     if(!estavacia(cabeza)){
 
@@ -132,6 +124,7 @@ struct Soldados
         return aux1->vida;
     }
 
+    
 
     private:
 
@@ -288,7 +281,7 @@ struct Soldados
 
         archivo.close(); // Cerramos archivo 
         //cout << "Los jugadores se han cargado con exito !!" << endl; 
-        //leerlist(*soldado);
+        
         return true; 
         }
     }
@@ -334,4 +327,39 @@ struct Soldados
 
     return aux1->vida;
 }
+
+void eliminar_soldado(Bitacora* bitacora, int position) {
+        if (position >= size || position < 0) {
+            cout << "Error: Posición inválida." << endl;
+            return;
+        }
+
+        soldado* current = cabeza;
+        soldado* prev = nullptr;
+
+        int i = 0;
+        while (i < position) {
+            prev = current;
+            current = current->next;
+            i++;
+        }
+
+        if (prev == nullptr) {
+            cabeza = current->next;
+        } else {
+            prev->next = current->next;
+        }
+
+        registrarSoldadoCaido(bitacora, current->Nombre_soldado);
+        delete current;
+        size--;
+    }
+
+    void agregar_soldado(Bitacora* bitacora, const string& nombre, int vida) {
+        soldado* nuevo = new soldado{nombre, vida, cabeza};
+        cabeza = nuevo;
+        size++;
+        registrarEvento(bitacora, "Soldado agregado: " + nombre);
+    }
+
 };

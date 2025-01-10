@@ -48,6 +48,20 @@ struct Soldados{
         cin >>nombresoldado; 
         return nombresoldado;
     }
+
+    void leer_lista_soldados(){
+        soldado* aux1 = cabeza;
+        int valor_pos = size;
+        while (aux1 != NULL){
+            cout << "Posicion: "<< valor_pos << endl;
+            valor_pos=valor_pos-1;
+            cout << "Caracteristicas de los Zombies:"<< endl;
+            cout << "Nombre del soldado: "<< aux1->Nombre_soldado << endl;
+            cout << "Vida del soldado: "<< aux1->vida << endl;
+            cout << endl;
+            aux1= aux1->next;
+        }
+    }
     
     void agregar_soldados_por_zmb(){
         lecturasoldados(cabeza);
